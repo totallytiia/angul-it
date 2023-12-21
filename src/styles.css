@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+	@apply py-2 px-4 inline-flex items-center gap-x-2 text-base font-semibold rounded-xl shadow-lg border-4 border-torch-red-500 bg-torch-red-500 text-white hover:border-4 hover:border-white ;
+  }
+  h1 {
+    @apply text-6xl font-bold text-alabaster-100;
+  }
+  .subtitle {
+    @apply text-lg text-alabaster-200;
+  }
+}
+
+
+@layer utilities {
+  .font-helvetica {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+}
+
+

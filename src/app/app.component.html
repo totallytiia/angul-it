@@ -1,0 +1,21 @@
+<div
+  class="flex flex-col h-screen w-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-black-pearl-900 via-black-pearl-800 to-black-pearl-800">
+  <header class="p-4 flex justify-between">
+    <!-- Your header content -->
+    <h2 class="text-torch-red-400 font-bold text-xl uppercase">
+      <a [routerLink]="['/']">
+        Angul-it
+      </a>
+    </h2>
+  </header>
+
+  <main class="flex-grow items-center justify-center flex">
+    <!-- Your main content -->
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="text-alabaster-600 text-center p-4 w-full text-sm font-normal">
+    <!-- Your footer content -->
+    Tiia Laukkanen - grit:lab 2023
+  </footer>
+</div>

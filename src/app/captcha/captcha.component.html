@@ -1,0 +1,32 @@
+<!-- Navigation Bar for States -->
+<div class="state-navigation flex flex-row gap-2 justify-center mb-2">
+	<div *ngFor="let state of states; let i = index" class="state-link">
+		<span [ngClass]="{
+			'cursor-pointer text-white': i < highestStateReached,
+			'bg-bright-turquoise-500': state === currentState,
+			'text-black-pearl-400': i >= highestStateReached
+		  }" class="p-3 rounded-full w-9 h-9 flex items-center justify-center" (click)="goToState(i)">
+			<p class=" font-extrabold text-lg">{{ state }}</p>
+		</span>
+	</div>
+</div>
+<div class=" bg-blue-400 bg-opacity-10 p-8 pb-2 shadow-md rounded-lg text-center text-white text-lg">
+
+	<!-- CAPTCHA States -->
+	<div *ngIf="currentState === 1">
+		<app-math-captcha (result)="handleCaptchaResults($event)"></app-math-captcha>
+	</div>
+
+	<div *ngIf="currentState === 2">
+		<app-word-image-captcha (result)="handleCaptchaResults($event)"></app-word-image-captcha>
+	</div>
+
+	<div *ngIf="currentState === 3">
+		<app-image-grid-captcha (result)="handleCaptchaResults($event)"></app-image-grid-captcha>
+	</div>
+	<button class="mt-2 text-alabaster-600  justify-center rounded-md text-xs" (click)="restart()">
+		restart
+	</button>
+</div>
+<div>
+</div>
