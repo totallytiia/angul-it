@@ -73,7 +73,7 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
         this.currentState++;
         this.stateService.updateCurrentState(this.currentState);
         this.stateService.updateHighestStateReached(this.highestStateReached);
-
+        console.log("current updated now: " + this.currentState);
         if (this.currentState === 4) {
           this.redirectToResultComponent();
         } else {

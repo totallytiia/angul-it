@@ -9,7 +9,7 @@ export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'captcha', component: CaptchaComponent },
-  { path: 'result', component: ResultComponent, canActivate: ['resultAccessGuard'] },
+  { path: 'result', component: ResultComponent },
   { path: 'wrong', component: WrongComponent },
   { path: '**', redirectTo: 'home' }
 ];
