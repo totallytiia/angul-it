@@ -65,6 +65,7 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
     }
     
     handleCaptchaResults(isCorrect: boolean) {
+      var returnValue = false;
       if (isCorrect) {
         if (this.currentState === this.highestStateReached) {
           this.highestStateReached++;
@@ -75,6 +76,7 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
         this.stateService.updateHighestStateReached(this.highestStateReached);
         console.log("current updated now: " + this.currentState);
         if (this.currentState === 4) {
+          returnValue = true;
           this.redirectToResultComponent();
         } else {
           this.redirectToNextCaptcha();
@@ -83,6 +85,7 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
         this.redirectToWrongComponent();
         this.stateService.resetState();
       }
+      return returnValue;
     }
 
 

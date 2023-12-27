@@ -27,7 +27,7 @@ export class StateService implements OnDestroy {
     this.saveState('highestStateReached', this.highestStateReachedSubject.value);
   }
 
-  private loadState(key: string, defaultValue: number): number {
+  public loadState(key: string, defaultValue: number): number {
     try {
       const value = localStorage.getItem(key);
       return value !== null ? parseInt(value, 10) : defaultValue;
