@@ -88,7 +88,6 @@ export class WordImageCaptchaComponent implements AfterViewInit {
   
   // verify the user's input, user has 3 tries
   verifyWordImageCaptcha() {
-    console.log(this.tries );
     if (this.userInput === "") {
       this.tries++;
       this.captchaError = "Captcha must be filled";

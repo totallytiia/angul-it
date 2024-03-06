@@ -24,7 +24,6 @@ export class ResultComponent {
     this.totalStages = 4; // Assign the value from the service
   }
 
-  // Method to redirect the user to the next stage
   clearState() {
     this.stateService.resetState();
   }
