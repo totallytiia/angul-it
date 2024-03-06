@@ -37,18 +37,23 @@ export class StateService implements OnDestroy {
     }
   }
 
+  // Save the state to local storage
   private saveState(key: string, value: number): void {
     localStorage.setItem(key, value.toString());
   }
 
+  // Update the highest state reached
   updateHighestStateReached(state: number): void {
     this.highestStateReachedSubject.next(state);
   }
 
+  // Update the current state
   updateCurrentState(state: number): void {
     this.currentStateSubject.next(state);
   }
 
+
+  // Reset the state to the initial state
   resetState(): void {
     this.updateCurrentState(1);
     this.updateHighestStateReached(1);

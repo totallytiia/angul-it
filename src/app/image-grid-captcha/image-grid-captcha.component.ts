@@ -28,7 +28,9 @@ export class ImageGridCaptchaComponent {
   }
 
 
+  // 6x6 array of objects with a selected property
   grid: { selected: boolean }[][];
+  // emit a boolean value when the user submits their selection
   @Output() result = new EventEmitter<boolean>();
 
 
@@ -43,6 +45,7 @@ export class ImageGridCaptchaComponent {
     }
   }
 
+  // validate the user's selection
   validateSelection() {
     for (let i = 0; i < 6; i++) {
       for (let j = 0; j < 6; j++) {

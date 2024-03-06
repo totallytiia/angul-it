@@ -31,14 +31,13 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
     constructor(private router: Router, private stateService: StateService) {
     }
 
+    // Subscribe to the currentState$ and highestStateReached$ observables
     ngOnInit(): void {
       this.currentStateSubscription = this.stateService.currentState$.subscribe(state => {
         this.currentState = state;
-        console.log("current: ng " + this.currentState);
       });
       this.highestStateReachedSubscription = this.stateService.highestStateReached$.subscribe(reach => {
         this.highestStateReached = reach;
-        console.log("highest: ng " + this.highestStateReached);
       });
     }
 
@@ -48,10 +47,8 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
       this.highestStateReachedSubscription?.unsubscribe();
     }
 
+    // move to the next state
     goToState(stageIndex: number): void {
-      console.log("go to:" + stageIndex);
-      console.log("highest: " + this.highestStateReached);
-      console.log("current: " + this.currentState);
       if (stageIndex < this.highestStateReached) {
         this.currentState = stageIndex + 1;
         this.stateService.updateCurrentState(this.currentState);
@@ -59,22 +56,24 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
       }
     }
 
+    // reset the state
     restart(): void {
       this.stateService.resetState();
       this.router.navigate(['/']);
     }
     
+    // handle the result of the CAPTCHA
+    // if the result is correct, move to the next CAPTCHA
+    // if the result is incorrect, redirect to the wrong component, and reset the state
     handleCaptchaResults(isCorrect: boolean) {
       var returnValue = false;
       if (isCorrect) {
         if (this.currentState === this.highestStateReached) {
           this.highestStateReached++;
-          console.log("highest updated now: " + this.highestStateReached);
         }
         this.currentState++;
         this.stateService.updateCurrentState(this.currentState);
         this.stateService.updateHighestStateReached(this.highestStateReached);
-        console.log("current updated now: " + this.currentState);
         if (this.currentState === 4) {
           returnValue = true;
           this.redirectToResultComponent();
@@ -88,45 +87,19 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
       return returnValue;
     }
 
-
-    // handleMathCaptchaResult(isCorrect: boolean) {
-    //   if (isCorrect) {
-    //     this.currentState = 2; // Move to photo grid CAPTCHA
-    //     this.updateHighestStateReached(2);
-    //     this.redirectToNextCaptcha();
-    //   } else {
-    //     this.redirectToWrongComponent();
-    //   }
-    // }
-
-    // handleWordImageCaptchaResult(isCorrect: boolean) {
-    //   if (isCorrect) {
-    //     this.currentState = 3; // Move to image word CAPTCHA
-    //     this.updateHighestStateReached(3);
-    //     this.redirectToNextCaptcha();
-    //   } else {
-    //     this.redirectToWrongComponent();
-    //   }
-    // }
-
-    // handleImageGridCaptchaResult(isCorrect: boolean) {
-    //   console.log(isCorrect);
-    //   if (isCorrect) {
-    //     this.currentState = 3; // Move to image word CAPTCHA
-    //     this.redirectToResultComponent();
-    //   } else {
-    //     this.redirectToWrongComponent();
-    //   }
-    // }
-
+    // redirect to the wrong component
     private redirectToWrongComponent() {
       this.router.navigate(['/wrong']);
     }
 
+
+    // redirect to the next CAPTCHA
     private redirectToNextCaptcha() {
       this.router.navigate(['/captcha']);
     }
 
+
+    // redirect to the result component
     private redirectToResultComponent() {
       this.router.navigate(['/result']);
     }

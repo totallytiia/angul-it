@@ -6,6 +6,7 @@ export const stateGuard: CanActivateFn = (route, state) => {
   var returnValue = false;
   var stateService = inject(StateService);
   var router = inject(Router);
+  // if the current state is 4, return true
   if (stateService.loadState('currentState', 1) === 4) {
     returnValue = true;
     console.log("stateGuard: true");

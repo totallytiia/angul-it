@@ -18,14 +18,17 @@ export class WordImageCaptchaComponent implements AfterViewInit {
   tries: number = 0;
   @Output() result = new EventEmitter<boolean>();
 
+  // creating a new captcha when the component is initialized
   constructor() {
     this.createCaptcha();
   }
 
+  // ngAfterViewInit() is called after the component's view has been fully initialized
   ngAfterViewInit() {
     this.drawCaptcha();
   }
 
+  // create a 6 character captcha
   createCaptcha() {
     for (let q = 0; q < 6; q++) {
       if (q % 2 === 0) {
@@ -37,6 +40,7 @@ export class WordImageCaptchaComponent implements AfterViewInit {
     this.theCaptcha = this.captcha.join("");
   }
 
+  // generate a random number between min and max
   randomNumber = (min: number, max: number) =>
     Math.floor(Math.random() * (max - min + 1) + min);
   
@@ -81,7 +85,8 @@ export class WordImageCaptchaComponent implements AfterViewInit {
       }
     }
   }
-      
+  
+  // verify the user's input, user has 3 tries
   verifyWordImageCaptcha() {
     console.log(this.tries );
     if (this.userInput === "") {

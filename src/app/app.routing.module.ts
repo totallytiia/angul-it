@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { ResultComponent } from './result/result.component';
 import { WrongComponent } from './wrong/wrong.component';
 
+// Define the routes for the application
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 
+// Define the routing module
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
