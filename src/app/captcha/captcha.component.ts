@@ -62,6 +62,7 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
     constructor(private router: Router, private stateService: StateService) {
     }
 
+    // Subscribe to the currentState$ and highestStateReached$ observables
     ngOnInit(): void {
       this.currentStateSubscription = this.stateService.currentState$.subscribe(state => {
         this.currentState = state;
@@ -77,6 +78,7 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
       this.highestStateReachedSubscription?.unsubscribe();
     }
 
+    // move to the next state
     goToState(stageIndex: number): void {
       if (stageIndex < this.highestStateReached) {
         this.currentState = stageIndex + 1;
@@ -85,11 +87,15 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
       }
     }
 
+    // reset the state
     restart(): void {
       this.stateService.resetState();
       this.router.navigate(['/']);
     }
     
+    // handle the result of the CAPTCHA
+    // if the result is correct, move to the next CAPTCHA
+    // if the result is incorrect, redirect to the wrong component, and reset the state
     handleCaptchaResults(isCorrect: boolean) {
       var returnValue = false;
       if (isCorrect) {
@@ -112,14 +118,49 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
       return returnValue;
     }
 
+
+    // handleMathCaptchaResult(isCorrect: boolean) {
+    //   if (isCorrect) {
+    //     this.currentState = 2; // Move to photo grid CAPTCHA
+    //     this.updateHighestStateReached(2);
+    //     this.redirectToNextCaptcha();
+    //   } else {
+    //     this.redirectToWrongComponent();
+    //   }
+    // }
+
+    // handleWordImageCaptchaResult(isCorrect: boolean) {
+    //   if (isCorrect) {
+    //     this.currentState = 3; // Move to image word CAPTCHA
+    //     this.updateHighestStateReached(3);
+    //     this.redirectToNextCaptcha();
+    //   } else {
+    //     this.redirectToWrongComponent();
+    //   }
+    // }
+
+    // handleImageGridCaptchaResult(isCorrect: boolean) {
+    //   console.log(isCorrect);
+    //   if (isCorrect) {
+    //     this.currentState = 3; // Move to image word CAPTCHA
+    //     this.redirectToResultComponent();
+    //   } else {
+    //     this.redirectToWrongComponent();
+    //   }
+    // }
+
     private redirectToWrongComponent() {
       this.router.navigate(['/wrong']);
     }
 
+
+    // redirect to the next CAPTCHA
     private redirectToNextCaptcha() {
       this.router.navigate(['/captcha']);
     }
 
+
+    // redirect to the result component
     private redirectToResultComponent() {
       this.router.navigate(['/result']);
     }

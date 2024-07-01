@@ -34,6 +34,7 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
     });
   }
 
+  // ngAfterViewInit() is called after the component's view has been fully initialized
   ngAfterViewInit() {
     this.drawCaptcha();
   }
@@ -53,6 +54,7 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
     this.theCaptcha = this.captcha.join("");
   }
 
+  // generate a random number between min and max
   randomNumber = (min: number, max: number) =>
     Math.floor(Math.random() * (max - min + 1) + min);
   
@@ -97,9 +99,9 @@ export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestr
       }
     }
   }
-      
+  
+  // verify the user's input, user has 3 tries
   verifyWordImageCaptcha() {
-    console.log(this.tries );
     if (this.userInput === "") {
       this.tries++;
       this.stateService.updateWordImageCaptchaTries(this.tries);
