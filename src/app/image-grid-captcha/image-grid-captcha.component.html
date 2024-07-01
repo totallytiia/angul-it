@@ -1,13 +1,12 @@
 <div class="sm:w-96 sm:h-92">
 	<h2 class="text-2xl font-bold">Select all images with</h2>
-	<h2 class="text-2xl font-bold text-red-500 mb-2">Yellow Cars
-	</h2>
+	<h2 class="text-2xl font-bold text-red-500 mb-2">Yellow Cars</h2>
 	<div class="flex justify-center items-center">
-		<div class="grid grid-cols-6 bg-[url('./assets/images/street.jpeg')] bg-no-repeat bg-cover h-full w-full">
+		<div class="grid grid-cols-6 bg-[url('./assets/images/street.jpeg')] bg-no-repeat bg-cover w-full shrink-0">
 			<div *ngFor="let row of grid; let i = index" class="row">
 				<div *ngFor="let cell of row; let j = index" (click)="toggleCell(i, j)" [class.bg-white]="cell.selected"
 					[class.bg-opacity-50]="cell.selected" [class.bg-none]="!cell.selected"
-					class="cell p-7 border border-gray-300">
+					class="cell border border-gray-300">
 				</div>
 			</div>
 		</div>

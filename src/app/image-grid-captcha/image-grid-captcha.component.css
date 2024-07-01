@@ -1,0 +1,4 @@
+.cell {
+	aspect-ratio: 1 / 1; /* Ensures the cell is always square */
+	width: 100%; /* Ensures the cell takes full width of its container */
+  }
