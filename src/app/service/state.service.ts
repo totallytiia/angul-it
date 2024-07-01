@@ -58,9 +58,6 @@ export class StateService implements OnDestroy {
     this.currentStateSubject.next(state);
   }
 
-  updateWordImageCaptchaTries(state: number): void {
-    this.wordImageCaptchaTriesSubject.next(state);
-  }
 
   updateWordImageCaptchaTries(state: number): void {
     this.wordImageCaptchaTriesSubject.next(state);
