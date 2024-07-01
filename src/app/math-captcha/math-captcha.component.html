@@ -1,11 +1,10 @@
-<div class="math-captcha flex flex-col gap-2">
+<div class="math-captcha flex flex-col gap-4">
 	<p>Solve the following math problem:</p>
-	<div class="flex gap-2">
+	<div class="flex gap-4">
 		<p class="my-auto">{{ firstNumber }} + {{ secondNumber }} = </p>
-		<input class="rounded-md py-1 px-2 text-black bg-white focus:outline-green-400" type="text"
-			[(ngModel)]="userAnswer" />
+		<input class="rounded-md py-1 px-2 text-black focus:outline-none" type="text" [(ngModel)]="userAnswer" />
 	</div>
-	<button class="mt-1 btn text-white justify-center rounded-md text-md" (click)="verifyMathCaptcha()">
+	<button class="mt-1 btn justify-center rounded-md text-md" (click)="verifyMathCaptcha()">
 		Submit
 	</button>
 </div>

@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { StateService } from '../service/state.service';
+
+
 
 @Component({
   selector: 'app-word-image-captcha',
@@ -9,7 +13,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './word-image-captcha.component.html',
   styleUrl: './word-image-captcha.component.css'
 })
-export class WordImageCaptchaComponent implements AfterViewInit {
+export class WordImageCaptchaComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   captcha: (string | number)[] = new Array(6);
   theCaptcha: string = '';
@@ -18,12 +22,24 @@ export class WordImageCaptchaComponent implements AfterViewInit {
   tries: number = 0;
   @Output() result = new EventEmitter<boolean>();
 
-  constructor() {
+  private wordImageCaptchaTriesSubscription?: Subscription;;
+
+  constructor(private stateService: StateService) {
     this.createCaptcha();
+  }
+
+  ngOnInit(): void {
+    this.wordImageCaptchaTriesSubscription = this.stateService.wordImageCaptchaTries$.subscribe(state => {
+      this.tries = state;
+    });
   }
 
   ngAfterViewInit() {
     this.drawCaptcha();
+  }
+
+  ngOnDestroy(): void {
+    this.wordImageCaptchaTriesSubscription?.unsubscribe();
   }
 
   createCaptcha() {
@@ -86,6 +102,7 @@ export class WordImageCaptchaComponent implements AfterViewInit {
     console.log(this.tries );
     if (this.userInput === "") {
       this.tries++;
+      this.stateService.updateWordImageCaptchaTries(this.tries);
       this.captchaError = "Captcha must be filled";
       if (this.tries > 2) {
         this.result.emit(false);
@@ -95,6 +112,7 @@ export class WordImageCaptchaComponent implements AfterViewInit {
     const isCaptchaValid = this.userInput === this.theCaptcha;
     if (!isCaptchaValid) {
       this.tries++;
+      this.stateService.updateWordImageCaptchaTries(this.tries);
       if (this.tries === 1) {
         this.captchaError = "Wrong captcha! Try again.";
       } else if (this.tries === 2) {

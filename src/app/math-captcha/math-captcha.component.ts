@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-math-captcha',
@@ -10,6 +11,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './math-captcha.component.css'
 })
 export class MathCaptchaComponent {
+
+  state: number = 0;
+  private wordImageCaptchaTriesSubscription?: Subscription;;
 
   constructor() {
     this.firstNumber = this.randomNumber();

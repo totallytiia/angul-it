@@ -1,8 +1,12 @@
-<div class="word-image-captcha flex flex-col gap-2 font">
+<div class="word-image-captcha flex flex-col gap-4">
 	<p>Enter the captcha: </p>
 	<canvas #canvas width="160" height="50" class="bg-white rounded-md"></canvas>
-	<input class="text-black rounded-md py-1 px-2 focus:outline-green-400" type="text" [(ngModel)]="userInput" />
+	<input class="text-black rounded-md py-1 px-2 focus:outline-none" type="text" [(ngModel)]="userInput" />
 	<button class="mt-1 btn text-white justify-center rounded-md text-md"
 		(click)="verifyWordImageCaptcha()">Submit</button>
-	<div *ngIf="captchaError" class="captcha-error">{{ captchaError }}</div>
+	<div class="captcha-error-container h-8 overflow-hidden text-xs">
+		<div [ngClass]="{ captchaError}">
+			{{ captchaError }}
+		</div>
+	</div>
 </div>

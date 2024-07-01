@@ -1,3 +1,4 @@
+import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
@@ -17,7 +18,37 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
     RouterModule,
     RouterLink],
   templateUrl: './captcha.component.html',
-  styleUrl: './captcha.component.css'
+  styleUrl: './captcha.component.css',
+  animations: [
+    trigger('levels', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        query('p', [
+          style({ opacity: 0, transform: 'translateY(-6px)', background: 'none'}),
+          stagger('150ms', [
+          animate('0.3s ease-in', style({ opacity: 1, transform: 'translateY(0)' }))
+          ]),
+        ], { optional: true }),
+        animate('0.3s 0.1s', style({ opacity: 1 } ))
+      ])
+    ]),
+    trigger('fadeInStagger', [
+      transition(':enter', [
+        query('h1,.mt-2,p, button, input, canvas', [
+        style({ opacity: 0, transform: 'translateY(-6px)' }),
+        stagger('100ms', [
+        animate('0.2s ease-in', style({ opacity: 1, transform: 'translateY(0)' }))
+        ]),
+        ], { optional: true })
+      ]),
+    ]),
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-6px)' }),
+        animate('0.3s 0.6s', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ]),
+  ]
 })
 
   export class CaptchaComponent implements OnInit, OnDestroy {
@@ -34,11 +65,9 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
     ngOnInit(): void {
       this.currentStateSubscription = this.stateService.currentState$.subscribe(state => {
         this.currentState = state;
-        console.log("current: ng " + this.currentState);
       });
       this.highestStateReachedSubscription = this.stateService.highestStateReached$.subscribe(reach => {
         this.highestStateReached = reach;
-        console.log("highest: ng " + this.highestStateReached);
       });
     }
 
@@ -49,9 +78,6 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
     }
 
     goToState(stageIndex: number): void {
-      console.log("go to:" + stageIndex);
-      console.log("highest: " + this.highestStateReached);
-      console.log("current: " + this.currentState);
       if (stageIndex < this.highestStateReached) {
         this.currentState = stageIndex + 1;
         this.stateService.updateCurrentState(this.currentState);
@@ -69,12 +95,10 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
       if (isCorrect) {
         if (this.currentState === this.highestStateReached) {
           this.highestStateReached++;
-          console.log("highest updated now: " + this.highestStateReached);
         }
         this.currentState++;
         this.stateService.updateCurrentState(this.currentState);
         this.stateService.updateHighestStateReached(this.highestStateReached);
-        console.log("current updated now: " + this.currentState);
         if (this.currentState === 4) {
           returnValue = true;
           this.redirectToResultComponent();
@@ -88,37 +112,6 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
       return returnValue;
     }
 
-
-    // handleMathCaptchaResult(isCorrect: boolean) {
-    //   if (isCorrect) {
-    //     this.currentState = 2; // Move to photo grid CAPTCHA
-    //     this.updateHighestStateReached(2);
-    //     this.redirectToNextCaptcha();
-    //   } else {
-    //     this.redirectToWrongComponent();
-    //   }
-    // }
-
-    // handleWordImageCaptchaResult(isCorrect: boolean) {
-    //   if (isCorrect) {
-    //     this.currentState = 3; // Move to image word CAPTCHA
-    //     this.updateHighestStateReached(3);
-    //     this.redirectToNextCaptcha();
-    //   } else {
-    //     this.redirectToWrongComponent();
-    //   }
-    // }
-
-    // handleImageGridCaptchaResult(isCorrect: boolean) {
-    //   console.log(isCorrect);
-    //   if (isCorrect) {
-    //     this.currentState = 3; // Move to image word CAPTCHA
-    //     this.redirectToResultComponent();
-    //   } else {
-    //     this.redirectToWrongComponent();
-    //   }
-    // }
-
     private redirectToWrongComponent() {
       this.router.navigate(['/wrong']);
     }
@@ -131,8 +124,3 @@ import { WordImageCaptchaComponent } from '../word-image-captcha/word-image-capt
       this.router.navigate(['/result']);
     }
   }
-
-
-  
-
-
